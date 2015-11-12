@@ -1,0 +1,14 @@
+[package]
+name = "rust-voxel"
+version = "0.1.0"
+authors = ["lumirayz <lumirayz@gmail.com>"]
+
+[dependencies.glium]
+version = "*"
+features = ["glutin", "nalgebra"]
+
+[dependencies.nalgebra]
+version = "*"
+
+[dependencies.rand]
+version = "*"
