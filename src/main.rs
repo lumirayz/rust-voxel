@@ -1,18 +1,18 @@
 #[macro_use] extern crate glium;
+extern crate rustc_serialize;
 extern crate nalgebra as na;
-extern crate rand;
 
 mod mesh;
 mod vertex;
 mod palette;
 mod voxelblock;
 
+mod loaders;
+
 use glium::glutin;
 use glium::Surface;
 
 use na::{Mat4, PerspMat3};
-
-use rand::distributions::{IndependentSample, Range};
 
 const VERTEX_SHADER_SOURCE: &'static str = r#"
     #version 140
@@ -59,23 +59,7 @@ fn main() {
         .build_glium()
         .unwrap();
 
-    let mut block = voxelblock::VoxelBlock::new();
-
-    let rand_range = Range::new(0u8, 4u8);
-    let mut rng = rand::thread_rng();
-    for x in 0..voxelblock::BLOCK_SIZE {
-        for y in 0..voxelblock::BLOCK_SIZE {
-            for z in 0..voxelblock::BLOCK_SIZE {
-                block.data[x][y][z] = rand_range.ind_sample(&mut rng);
-            }
-        }
-    }
-
-    let pal = palette::Palette::new(vec![
-        [1.0f32, 0.0, 0.0, 1.0],
-        [0.0f32, 1.0, 0.0, 1.0],
-        [0.0f32, 0.0, 1.0, 1.0]
-    ]);
+    let (pal, block) = loaders::zoxel::load(include_str!("../models/grass.zox")).unwrap();
 
     let mesh = block.to_mesh(&pal);
 

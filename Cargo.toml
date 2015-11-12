@@ -10,5 +10,5 @@ features = ["glutin", "nalgebra"]
 [dependencies.nalgebra]
 version = "*"
 
-[dependencies.rand]
+[dependencies.rustc-serialize]
 version = "*"
